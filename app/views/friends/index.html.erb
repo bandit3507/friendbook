@@ -1,0 +1,66 @@
+<!-- add logic to only display friends list if the user is signed in -->
+<% if user_signed_in? %>
+
+  <table class="table table-striped table-bordered table-hover">
+    <thead class="table-dark">
+      <tr>
+        <!-- Initially created display, switch to show combined Name
+        <th>First name</th>
+        <th>Last name</th>
+        -->
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Twitter</th>
+        <!-- <th>User Id</th> -->
+        <th> </th>
+        <!-- <th colspan="3"></th> -->
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @friends.each do |friend| %>
+
+        <!-- this is to hide other user's friend, could remove if you want all friends to show -->
+        <% if friend.user ==  current_user %>
+
+        <tr>
+          <!-- Make Name clickable which links to show.html.erb page -->
+          <td><%= link_to friend.first_name + ' ' + friend.last_name, friend %></td>
+          <!-- <td><%= friend.last_name %></td> -->
+          <td><%= friend.email %></td>
+          <td><%= friend.phone %></td>
+          <td><%= friend.twitter %></td>
+          <!-- Remove this after logic to address user friend modification logic is completed
+          <td><%= friend.user_id %></td>
+          -->
+          <!-- remove these since they are not needed after enabling clickable name link
+          <td><%= link_to 'Show', friend %></td>
+          <td><%= link_to 'Edit', edit_friend_path(friend) %></td>
+          -->
+          <!-- Renamed to Delete, added bootstrap button class attributes -->
+          <td><%= link_to 'Delete', friend, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-outline-danger btn-sm" %></td>
+        </tr>
+
+        <!-- this end tag if for the added friend viewing restriction logic -->
+        <% end %>
+
+      <% end %>
+    </tbody>
+  </table>
+
+  <br>
+
+  <%= link_to 'Add Friend', new_friend_path, class: "btn btn-secondary" %>
+<% else %>
+  <!-- Homepage if a user is not signed in -->
+  <h1>FriendBook</h1>
+  <h2>Keep track of all your friends</h2>
+  <br>
+
+
+  <h4>Add this later</h4>
+  <p>A bunch of misleading stats for propaganda</p>
+  <p>Wow, really beautiful images</p>
+  <p>Some clever animations to impress the user</p>
+<% end %>
